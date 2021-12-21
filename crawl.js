@@ -9,7 +9,9 @@ const sleep = (ms) => {
 
 const crawlBrands = async (categoryId) => {
   console.log(`[브랜드 - ${categoryId}] 브랜드를 찾고 있습니다.`);
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
 
   await page.goto(
@@ -56,7 +58,7 @@ const crawlProducts = async (
     `[상품 조회 - ${categoryId}] (${startPage}-${endPage}) 상품을 찾고 있습니다.`
   );
   const browser = await puppeteer.launch({
-    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
   const result = [];
@@ -147,7 +149,9 @@ const crawlProductDetail = async (originalUrl) => {
   console.log(
     `[상세페이지 조회 - ${originalUrl}] 상세페이지를 조회하고 있습니다.`
   );
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 
   console.log(originalUrl);
   const page = await browser.newPage();

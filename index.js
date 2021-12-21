@@ -7,7 +7,7 @@ const { crawlBrands, crawlProducts, crawlProductDetail } = require("./crawl");
 app.set("port", 9000);
 
 const server = http.createServer(app).listen(app.get("port"), () => {
-  console.log("server started");
+  console.log("server started on port 9000");
 });
 
 app.use(cors());
