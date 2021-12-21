@@ -8,7 +8,7 @@ const sleep = (ms) => {
 };
 
 const crawlBrands = async (categoryId) => {
-  console.log(`[브랜드 - ${categoryId}] 브랜드를 찾고 있습니다.`);
+  console.log(`[브랜드 조회 - ${categoryId}] 브랜드를 찾고 있습니다.`);
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
@@ -133,11 +133,6 @@ const crawlProducts = async (
     await page.close();
   }
 
-  // 4. 최근 6개월 이내 1번이라도 팔린 것
-  // ...
-
-  // 파일로 작성
-  // fs.writeFileSync("files/result.json", JSON.stringify(result));
   await browser.close();
   console.log(
     `[상품 조회 - ${categoryId}] (${startPage}-${endPage}) ${result.length}개의 상품을 찾았습니다.`
@@ -153,7 +148,6 @@ const crawlProductDetail = async (originalUrl) => {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
-  console.log(originalUrl);
   const page = await browser.newPage();
   await page.goto(originalUrl);
   await page.waitForTimeout(500);
@@ -187,7 +181,7 @@ const crawlProductDetail = async (originalUrl) => {
 
   await browser.close();
   console.log(
-    `[상세페이지 조회 - ${originalUrl}] 상세페이지를 조회가 완료되었습니다.`
+    `[상세페이지 조회 - ${originalUrl}] 상세페이지 조회가 완료되었습니다.`
   );
   return result;
 };

@@ -3,6 +3,7 @@ const http = require("http");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { crawlBrands, crawlProducts, crawlProductDetail } = require("./crawl");
+const { logger } = require("./logger");
 
 app.set("port", 9000);
 
@@ -20,7 +21,7 @@ app.get("/api/brands/:categoryId", async (req, res) => {
     const brands = await crawlBrands(categoryId);
     res.status(200).json(brands);
   } catch (e) {
-    console.error(e);
+    logger(req, e);
     res.status(500).json({ status: "error" });
   }
 });
@@ -41,7 +42,7 @@ app.post("/api/products/:categoryId", async (req, res) => {
     );
     res.status(200).json(products);
   } catch (e) {
-    console.error(e);
+    logger(req, e);
     res.status(500).json({ status: "error" });
   }
 });
@@ -52,7 +53,7 @@ app.post("/api/productDetail", async (req, res) => {
     const productDetail = await crawlProductDetail(url);
     res.status(200).json(productDetail);
   } catch (e) {
-    console.error(e);
+    logger(req, e);
     res.status(500).json({ status: "error" });
   }
 });
