@@ -63,6 +63,9 @@ const crawlProducts = async (
 
   const result = [];
   for (let i = startPage; i <= endPage; i++) {
+    console.log(
+      `[상품 조회 - ${categoryId}] 페이지 (${i}/${endPage})...`
+    );
     await sleep(500);
     const page = await browser.newPage();
     await page.goto(
