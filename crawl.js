@@ -52,7 +52,8 @@ const crawlProducts = async (
   categoryId,
   startPage = 1,
   endPage = 10,
-  brands = []
+  brands = [],
+  sort = "rel"
 ) => {
   console.log(
     `[상품 조회 - ${categoryId}] (${startPage}-${endPage}) 상품을 찾고 있습니다.`
@@ -63,13 +64,11 @@ const crawlProducts = async (
 
   const result = [];
   for (let i = startPage; i <= endPage; i++) {
-    console.log(
-      `[상품 조회 - ${categoryId}] 페이지 (${i}/${endPage})...`
-    );
+    console.log(`[상품 조회 - ${categoryId}] 페이지 (${i}/${endPage})...`);
     await sleep(500);
     const page = await browser.newPage();
     await page.goto(
-      `https://search.shopping.naver.com/search/category?catId=${categoryId}&frm=NVSHOVS&origQuery&pagingIndex=${i}&pagingSize=80&productSet=overseas&query&sort=review&timestamp=&viewType=list`
+      `https://search.shopping.naver.com/search/category?catId=${categoryId}&frm=NVSHOVS&origQuery&pagingIndex=${i}&pagingSize=80&productSet=overseas&query&sort=${sort}&timestamp=&viewType=list`
     );
     await page.waitForSelector("#__NEXT_DATA__");
 

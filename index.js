@@ -28,7 +28,7 @@ app.get("/api/brands/:categoryId", async (req, res) => {
 
 app.post("/api/products/:categoryId", async (req, res) => {
   const { categoryId } = req.params;
-  const { startPage, endPage, brandString } = req.body;
+  const { startPage, endPage, brandString, sort } = req.body;
   let brands = [];
   if (brandString) {
     brands = brandString.split(",");
@@ -38,7 +38,8 @@ app.post("/api/products/:categoryId", async (req, res) => {
       categoryId,
       startPage ? Number(startPage) : 1,
       endPage ? Number(endPage) : 10,
-      brands
+      brands,
+      sort
     );
     res.status(200).json(products);
   } catch (e) {
