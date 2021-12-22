@@ -76,8 +76,8 @@ const crawlProducts = async (
       `[상품 조회 - ${categoryId}, ${sort}] 페이지 (${i}/${endPage})...`
     );
     await sleep(100);
+    const page = await browser.newPage();
     try {
-      const page = await browser.newPage();
       await page.goto(
         `https://search.shopping.naver.com/search/category?catId=${categoryId}&frm=NVSHOVS&origQuery&pagingIndex=${i}&pagingSize=80&productSet=overseas&query&sort=${sort}&timestamp=&viewType=list`
       );
@@ -130,7 +130,6 @@ const crawlProducts = async (
                 console.log(
                   `[ERROR] [${categoryId}] ${i}페이지 ${productTitle} 스마트스토어 주소 수집에 실패했습니다.`
                 );
-                throw e;
               }
               await sleep(200);
               break;
@@ -154,11 +153,10 @@ const crawlProducts = async (
           }
         }
       }
-      await page.close();
     } catch (e) {
       console.log(`[ERROR] [${categoryId}] ${i} 페이지 수집에 실패하였습니다.`);
-      throw e;
     }
+    await page.close();
   }
 
   console.log(
@@ -214,8 +212,8 @@ const crawlProductDetail = async (originalUrl) => {
       `[상세페이지 조회 - ${originalUrl}] 상세페이지 조회가 완료되었습니다.`
     );
   } catch (e) {
+    console.log(e);
     console.error(e);
-    throw e;
   }
   await page.close();
   return result;
