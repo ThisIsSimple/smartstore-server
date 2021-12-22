@@ -113,7 +113,6 @@ const crawlProducts = async (
             if (chnlSeq !== "" && chnlType === "STOREFARM") {
               try {
                 const { chnlName, nvMid } = mall;
-                console.log("req");
                 const apiUrl = `https://search.shopping.naver.com/api/search/rd?rank=1&pagingIndex=1&pagingSize=40&bizCd=0301&prntExpsTrtrCd=000070&cpcExtrtrCd=000072&nvMid=${nvMid}&nclickArea=lst*C&naId=&rankCatalog=3&cntCatalog=5`;
                 const res = await axios.get(apiUrl);
                 if (!res.data?.redirect)
