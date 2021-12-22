@@ -64,7 +64,9 @@ const crawlProducts = async (
 
   const result = [];
   for (let i = startPage; i <= endPage; i++) {
-    console.log(`[상품 조회 - ${categoryId}] 페이지 (${i}/${endPage})...`);
+    console.log(
+      `[상품 조회 - ${categoryId}, ${sort}] 페이지 (${i}/${endPage})...`
+    );
     await sleep(500);
     const page = await browser.newPage();
     await page.goto(
@@ -100,18 +102,24 @@ const crawlProducts = async (
           // 스마트스토어 상품
           const { chnlSeq, chnlType } = mall;
           if (chnlSeq !== "" && chnlType === "STOREFARM") {
-            const { chnlName, nvMid } = mall;
-            const apiUrl = `https://search.shopping.naver.com/api/search/rd?rank=1&pagingIndex=1&pagingSize=40&bizCd=0301&prntExpsTrtrCd=000070&cpcExtrtrCd=000072&nvMid=${nvMid}&nclickArea=lst*C&naId=&rankCatalog=3&cntCatalog=5`;
-            const res = await axios.get(apiUrl);
-            result.push({
-              id,
-              date,
-              name: productTitle,
-              shop: chnlName,
-              url: res.data?.redirect,
-              image: imageUrl,
-            });
-            await sleep(500);
+            try {
+              const { chnlName, nvMid } = mall;
+              const apiUrl = `https://search.shopping.naver.com/api/search/rd?rank=1&pagingIndex=1&pagingSize=40&bizCd=0301&prntExpsTrtrCd=000070&cpcExtrtrCd=000072&nvMid=${nvMid}&nclickArea=lst*C&naId=&rankCatalog=3&cntCatalog=5`;
+              const res = await axios.get(apiUrl);
+              result.push({
+                id,
+                date,
+                name: productTitle,
+                shop: chnlName,
+                url: res.data?.redirect,
+                image: imageUrl,
+                page: i,
+              });
+            } catch (e) {
+              console.error(e);
+            } finally {
+              await sleep(500);
+            }
             break;
           }
         }
@@ -128,6 +136,7 @@ const crawlProducts = async (
             shop: mallName,
             url: mallProductUrl,
             image: imageUrl,
+            page: i,
           });
         }
       }
